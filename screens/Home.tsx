@@ -2,32 +2,41 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useAuthentication } from '../utils/hooks/useAuthentication';
 import { Button } from 'react-native-elements';
-import auth from  'firebase/auth';
+import {getAuth, signOut} from 'firebase/auth';
 import { StackScreenProps } from '@react-navigation/stack';
 
+import firebase from '../config/firebase'
+
+
+import { useNavigation } from '@react-navigation/native';
+
 export default function HomeScreen() {
+  const auth = getAuth();
+
+  const navigation = useNavigation();
+
   const { user } = useAuthentication();
 
- 
-  async function signOut(auth){
-    await signOut (auth)
-    .then(()=>{console.log('Usuário deslogado com sucesso!')
-    this.props.navigation.navigate('SignIpScreen');
-    
-          })
-  .catch(error => console.log(error));
-  };
   
- 
+
+  async function logout() {
+    await signOut(auth)
+    .then(()=> {
+      console.log('saiu com sucesso!');      
+    })
+    .catch(error => console.log(error))
+
+  };
+
+
   return (
     <View style={styles.container}>
-      <Text>Welcome {user?.email}!</Text>
-
-      
-      <Button title="Sign Out" style={styles.button} onPress={() => signOut(auth)} />
-      
+      <Text>Tela Inicial {user?.email}!</Text>
+      <Button title="Sign Out" style={styles.button} onPress={() => logout()} />
     </View>
   );
+
+  
 }
 
 const styles = StyleSheet.create({
@@ -38,7 +47,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    marginTop: 10
+    marginTop: 40,
+    width: 300,
+    height: 300,
+    
   }
 });
 

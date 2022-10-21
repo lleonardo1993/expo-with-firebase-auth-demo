@@ -31,7 +31,7 @@ const SignUpScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     } catch (error) {
       setValue({
         ...value,
-        error: error.message,
+        
       })
     }
   }
@@ -39,23 +39,23 @@ const SignUpScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Signup screen!</Text>
+      <Text>CADASTRO!</Text>
 
       {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
 
       <View style={styles.controls}>
-        <Input style={styles.inputtext}
+        <Input
           placeholder='Email'
-          containerStyle={styles.control}
+          containerStyle={styles.inputtext}
           value={value.email}
           onChangeText={(text) => setValue({ ...value, email: text })}
           leftIcon={<Icon
             name='envelope'
             size={16} />} autoCompleteType={undefined}        />
 
-        <Input style={styles.inputtext}
+        <Input
           placeholder='Password'
-          containerStyle={styles.control}
+          containerStyle={styles.inputtext}
           value={value.password}
           onChangeText={(text) => setValue({ ...value, password: text })}
           secureTextEntry={true}
@@ -63,7 +63,7 @@ const SignUpScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
             name='key'
             size={16} />} autoCompleteType={undefined}        />
 
-        <Button title="Sign up" buttonStyle={styles.control} onPress={signUp} />
+        <Button title="Entrar" buttonStyle={styles.control} onPress={signUp} />
       </View>
     </View>
   );
@@ -96,13 +96,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#D54826FF',
   },
   inputtext:{
-    height: '100%',
-    width: '100%',
-    margin: 12,
-    borderWidth: 50,
-    padding: 10,
-    color: 'red',
-    backgroundColor: 'black'
+    
+    
+    marginBottom: 20,
+    fontSize: 23,
+    fontWeight: "bold",
+    width: 200
   }
 });
 

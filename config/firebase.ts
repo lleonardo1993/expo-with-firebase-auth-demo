@@ -3,8 +3,14 @@ import { initializeApp } from "firebase/app";
 import 'firebase/auth';
 import Constants from 'expo-constants';
 
+
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeAuth, getReactNativePersistence} from 'firebase/auth/react-native';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,3 +26,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export default app;
+
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage)
+  });
+  
+  export { auth };

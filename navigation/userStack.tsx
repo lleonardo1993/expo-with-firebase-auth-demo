@@ -10,7 +10,7 @@ export default function UserStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen options={{title: 'Login Autenticado'}} name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,21 +4,29 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+import { useNavigation } from '@react-navigation/native';
+
 const auth = getAuth();
 
-const SignInScreen = () => {
+export const SignInScreen = () => {
   const [value, setValue] = React.useState({
     email: '',
     password: '',
     error: ''
   })
 
+  const navigation = useNavigation();
   async function signIn() {
     if (value.email === '' || value.password === '') {
       setValue({
         ...value,
-        error: 'Email and password are mandatory.'
+        error: 'Email e Senha Obrigatorio.'
+        
       })
+      navigation.navigate('home')
+      console.log(value.email)
+      console.log(value.password)
+      console.log(value)
       return;
     }
 
@@ -27,21 +35,21 @@ const SignInScreen = () => {
     } catch (error) {
       setValue({
         ...value,
-        error: error.message,
+        
       })
     }
   }
 
   return (
     <View style={styles.container}>
-      <Text>Signin screen!</Text>
+      <Text>Entrar!</Text>
 
       {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
 
       <View style={styles.controls}>
         <Input
           placeholder='Email'
-          containerStyle={styles.control}
+          containerStyle={styles.inputtext}
           value={value.email}
           onChangeText={(text) => setValue({ ...value, email: text })}
           leftIcon={<Icon
@@ -50,7 +58,7 @@ const SignInScreen = () => {
 
         <Input
           placeholder='Password'
-          containerStyle={styles.control}
+          containerStyle={styles.inputtext}
           value={value.password}
           onChangeText={(text) => setValue({ ...value, password: text })}
           secureTextEntry={true}
@@ -75,10 +83,13 @@ const styles = StyleSheet.create({
 
   controls: {
     flex: 1,
+    
   },
 
   control: {
-    marginTop: 10
+    marginTop: 50,
+    width: '100%',
+    height: 56
   },
 
   error: {
@@ -86,7 +97,14 @@ const styles = StyleSheet.create({
     padding: 10,
     color: '#fff',
     backgroundColor: '#D54826FF',
+  },
+  inputtext:{
+    
+    
+    marginBottom: 20,
+    fontSize: 23,
+    fontWeight: "bold",
+    width: 200
   }
 });
-
 export default SignInScreen;
