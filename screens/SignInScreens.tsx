@@ -1,89 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button } from 'react-native-elements';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+import { Lottie } from '../src/components/Animations/Lottie';
+
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
+import { FooterButton } from '../src/components/Controllers/FooterButton';
+import { Button } from '../src/components/Controllers/Button';
+import { Input } from '../src/components/Controllers/Input';
+import { Form, Title, Footer } from './styles';
+
+import signInAnimation from '../assets/animations/signin.json';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 const auth = getAuth();
 
 export const SignInScreen = () => {
-  const [value, setValue] = React.useState({
-    email: '',
-    password: '',
-    error: ''
-  })
+
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
-  async function signIn() {
-    if (value.email === '' || value.password === '') {
-      setValue({
-        ...value,
-        error: 'Email e Senha Obrigatorio.'
-        
-      })
-      navigation.navigate('home')
-      console.log(value.email)
-      console.log(value.password)
-      console.log(value)
-      return;
-    }
 
-    try {
-      await signInWithEmailAndPassword(auth, value.email, value.password);
-    } catch (error) {
-      setValue({
-        ...value,
-        
+  async function signIn() {
+    setIsLoading(true);
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(value => {
+        console.log('Fez login com sucesso! \n' + value.user.uid);
       })
-    }
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Entrar!</Text>
-
-      {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
-
-      <View style={styles.controls}>
-        <Input
-          placeholder='Email'
-          containerStyle={styles.inputtext}
-          value={value.email}
-          onChangeText={(text) => setValue({ ...value, email: text })}
-          leftIcon={<Icon
-            name='envelope'
-            size={16} />} autoCompleteType={undefined}        />
-
-        <Input
-          placeholder='Password'
-          containerStyle={styles.inputtext}
-          value={value.password}
-          onChangeText={(text) => setValue({ ...value, password: text })}
-          secureTextEntry={true}
-          leftIcon={<Icon
-            name='key'
-            size={16} />} autoCompleteType={undefined}        />
-
-        <Button title="Sign in" buttonStyle={styles.control} onPress={signIn} />
+    <Form>
+      <View style={styles.container}>
+        <Lottie source={signInAnimation} />
       </View>
-    </View>
+      <Title>Entrar</Title>
+      <Input placeholder="E-mail" onChangeText={setEmail} />
+      <Input placeholder="Senha" secureTextEntry onChangeText={setPassword} />
+      <Button title="Entrar" onPress={signIn} isLoading={isLoading} />
+
+      <Footer>
+        <FooterButton title="Criar conta" icon="person-add" onPress={() => navigation.navigate('Sign UpO')} />
+        <FooterButton title="Esqueci senha" icon="email" onPress={signIn} />
+      </Footer>
+    </Form>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
-    backgroundColor: '#fff',
+    paddingTop: 100,
+
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   controls: {
     flex: 1,
-    
+    backgroundColor: '#3f5996',
   },
 
   control: {
@@ -98,13 +77,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     backgroundColor: '#D54826FF',
   },
-  inputtext:{
-    
-    
+  inputtext: {
+
+
     marginBottom: 20,
     fontSize: 23,
     fontWeight: "bold",
     width: 200
-  }
+  },
+
 });
 export default SignInScreen;

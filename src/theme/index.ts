@@ -11,7 +11,7 @@ export default {
     WHITE: '#FFFFFF',
     BORDER: '#C5CADA'
   },
-
+ 
   FONTS: {
     TITLE: 'Inter_700Bold',
     TEXT: 'Inter_400Regular',

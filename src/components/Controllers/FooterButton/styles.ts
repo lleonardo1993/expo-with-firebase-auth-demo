@@ -8,7 +8,7 @@ export const Container = styled.TouchableOpacity`
 
 export const Title = styled.Text`
   font-size: 14px;
-  font-family: ${({ theme }) => theme.FONTS.TITLE};
-  color: ${({ theme }) => theme.COLORS.TEXT};
+  font-family: Inter_700Bold;
+  color: #383B43;
   margin-left: 5px;
 `;

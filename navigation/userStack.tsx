@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/Home';
 
+/** Tela aparece quando usuario está autenticado */
+
 const Stack = createStackNavigator();
 
 export default function UserStack() {

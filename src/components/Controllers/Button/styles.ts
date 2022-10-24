@@ -7,15 +7,15 @@ export const Container = styled(RectButton)`
   border-radius: 12px;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY};
+  background-color: #6100FF;
 `;
 
 export const Title = styled.Text`
   font-size: 14px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
-  font-family: ${({ theme }) => theme.FONTS.TEXT};
+  color: #FFFFFF;
+  font-family: Inter_400Regular;
 `;
 
-export const Load = styled.ActivityIndicator.attrs(({ theme }) => ({
-  color: theme.COLORS.WHITE
+export const Load = styled.ActivityIndicator.attrs(() => ({
+  color: '#FFFFFF'
 }))``;
