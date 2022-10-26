@@ -10,6 +10,14 @@ import SignUpScreen from '../screens/SignUpScreens';
 
 import AccountForm from '../screens/AccountForm';
 
+import MainTab from '../src/stacks/MainTab';
+
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { createMaterialBottomTabNavigator  } from "@react-navigation/material-bottom-tabs";
+
+const TabMat = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
@@ -17,7 +25,7 @@ export default function AuthStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Sign In" /* Funcão que define qual a primeira tela a ser exebida */
+        initialRouteName="MainTab" /* Funcão que define qual a primeira tela a ser exebida */
         screenOptions={{
           headerShown: false  /* Funcão que esconde o cabeçalho da tela */
         }}
@@ -41,6 +49,13 @@ export default function AuthStack() {
           options={{ title: 'Tela de Cadastro teste' }}
           name="Sign UpO"
           component={AccountForm} />
+
+
+        <Stack.Screen 
+        options={{ title: 'Tela Main tab' }}
+        name="MainTab"
+        component={MainTab} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
