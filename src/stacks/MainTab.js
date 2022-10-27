@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CustomTabBar from "../components/Controllers/CustomTabBar";
 
 import Home from '../NavTabs/screens/Home/';
-
+import Favorites from '../NavTabs/screens/Favorites'
 import Appointments from '../NavTabs/screens/Appointments';
 
 import Profile from '../NavTabs/screens/Profile';
@@ -19,14 +19,15 @@ import Search from "../NavTabs/screens/Search"
 
 import Casa from "../NavTabs/screens/Home";
 
-
+const TabMat = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 export default () => (
-    <Tab.Navigator>
-      <Tab.Screen name="Welcome" component={Welcome} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Casa" component={Casa} />
-
+  <Tab.Navigator tabBar={props=><CustomTabBar {...props}/>}>
+    <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Appointments" component={Appointments} />
+        <Tab.Screen name="Favorites" component={Favorites} />
+        <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
 )
