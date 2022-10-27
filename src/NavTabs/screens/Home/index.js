@@ -30,18 +30,20 @@ import Api from '../../../Api';
 export default () => {
     const navigation = useNavigation();
 
-    
+    const [locationText, setLocationText] = useState('');
+    const [coords, setCoords] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [list, setList] = useState([]);
 
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
-    /**  MANUTENÇÃO
-     * 
     const callLocation = () => {
-        setCoords(null);
-        if (Platform.OS === 'ios') {
 
-        } else {
-            const requestLocationPermission = async () => {
-                const result = await PermissionsAndroid.request(
+        useEffect(() => {
+            (async () => {
+
+                let { status } = await Location.requestForegroundPermissionsAsync(
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                     {
                         title: "Permissão de Acesso à Localização",
@@ -51,23 +53,36 @@ export default () => {
                         buttonPositive: "OK"
                     }
                 );
-                if (result === 'granted') {
-
-                    setLoading(true);
-                    setLocationText('');
-                    setList([]);
-
-
-                    Location.getCurrentPositionAsync((info) => {
-                        console.log("info" + info)
-                        setCoords(info.coords);
-                        getBarbers();
-                    })
+                console.log(status)
+                if (status === PermissionsAndroid.RESULTS.GRANTED) {
+                    alert('Acesso a Localização Autorizado!');
+                } else {
+                    alert('Permissão de Localização Negada.');
                 }
-            };
 
+                let location = await Location.getCurrentPositionAsync({});
+                setLocation(location);
+                console.log(location)
+                
+            })();
+
+        }, []);
+
+        let text = 'Aguarde..';
+        if (errorMsg) {
+            text = errorMsg;
+        } else if (location) {
+            text = JSON.stringify(location);
         }
+
     }
+
+
+
+
+
+
+    /*
     const getBarbers = async () => {
         setLoading(true);
         setList([]);
@@ -87,7 +102,7 @@ export default () => {
 
     }
 
-     funçã o quando abrir a tela carrega a lista dos "Barbeiros" */
+  
   
     /** 
         const getLocation = () => {
@@ -132,12 +147,12 @@ export default () => {
                         style={{ fontWeight: '500', fontSize: 24 }}
                         placeholder="Onde você está?"
                         placeholderTextColor="#000000"
-                        
+
                     />
 
 
                     <LocationFinder
-                        
+
                     >
                         <Image
                             style={{ alignItems: "center", height: 50, marginRight: 22 }}
