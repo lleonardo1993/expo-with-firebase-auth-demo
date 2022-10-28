@@ -38,45 +38,54 @@ export default () => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    const callLocation = () => {
+   
+    const callLocation = useEffect(() => {
+        setCoords(null);
+        (async () => {
 
-        useEffect(() => {
-            (async () => {
-
-                let { status } = await Location.requestForegroundPermissionsAsync(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                    {
-                        title: "Permissão de Acesso à Localização",
-                        message: "Este aplicativo precisa acessar sua localização.",
-                        buttonNeutral: "Pergunte-me depois",
-                        buttonNegative: "Cancelar",
-                        buttonPositive: "OK"
-                    }
-                );
-                console.log(status)
-                if (status === PermissionsAndroid.RESULTS.GRANTED) {
-                    alert('Acesso a Localização Autorizado!');
-                } else {
-                    alert('Permissão de Localização Negada.');
+            let { status } = await Location.requestForegroundPermissionsAsync(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    title: "Permissão de Acesso à Localização",
+                    message: "Este aplicativo precisa acessar sua localização.",
+                    buttonNeutral: "Pergunte-me depois",
+                    buttonNegative: "Cancelar",
+                    buttonPositive: "OK"
                 }
+            );
+            console.log(status)
+            if (status === PermissionsAndroid.RESULTS.GRANTED) {
 
-                let location = await Location.getCurrentPositionAsync({});
-                setLocation(location);
-                console.log(location)
-                
-            })();
+                setLoading(true);
+                setLocationText('');
+                setList([]);
 
-        }, []);
+                let location = await Location.getCurrentPositionAsync((info) => {
+                    console.log("info" + info)
+                    setCoords(info.coords);
+                    getBarbers();
+                    console.log(info.coords)
+                    setLocation(location);
+                    console.log(location)
+                })
 
-        let text = 'Aguarde..';
-        if (errorMsg) {
-            text = errorMsg;
-        } else if (location) {
-            text = JSON.stringify(location);
-        }
+                alert('Acesso a Localização Autorizado!');
+              } else {
+                alert('Permissão de Localização Negada.');
+              }
 
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            console.log(location)
+        })();
+    }, []);
+
+    let text = 'Aguarde..';
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (location) {
+        text = JSON.stringify(location);
     }
-
 
 
 
